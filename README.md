@@ -13,11 +13,13 @@ This project implements a deep learning approach to reconstruct 3D models from 2
 ├── model_prediction.py               # Model prediction and 3D generation
 ├── dataPreprocess.py                 # Data preprocessing utilities
 ├── utils/                            # Utility modules
+│   ├── __init__.py                   # Package initialization
 │   ├── common_utils.py              # Common utility functions
 │   ├── data_utils.py                # Data handling utilities
 │   └── model_utils.py               # Model-related utilities
 ├── train_with_huggingface/           # Hugging Face dataset integration
 │   ├── README.md                     # Hugging Face usage guide
+│   ├── README_HuggingFace.md        # Detailed HF integration guide
 │   ├── requirements_hf.txt           # Hugging Face dependencies
 │   ├── huggingface_dataset_loader.py # Dataset loading functionality
 │   ├── train_with_huggingface.py    # Training with HF datasets
@@ -25,8 +27,10 @@ This project implements a deep learning approach to reconstruct 3D models from 2
 │   └── install_huggingface.py       # Automated setup
 ├── checkpoints/                      # Training checkpoints
 ├── final_models/                     # Trained models
-├── shapes2d/                         # 2D image dataset
-└── shapes3d/                         # 3D model dataset
+├── hf_cache/                         # Hugging Face cache directory
+├── logs/                             # Training and execution logs
+├── plots/                            # Generated plots and visualizations
+└── __pycache__/                      # Python cache files
 ```
 
 ## Features
