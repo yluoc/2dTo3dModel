@@ -8,26 +8,18 @@ This project implements a deep learning approach to reconstruct 3D models from 2
 2dTo3dModel/
 ├── README.md                           # Main project documentation
 ├── requirements.txt                    # Core project dependencies
-├── cnnModel_pytorch.py               # CNN model architecture
-├── train_model_pytorch_gpu.py        # Main training script
-├── model_prediction.py               # Model prediction and 3D generation
-├── dataPreprocess.py                 # Data preprocessing utilities
-├── utils/                            # Utility modules
-│   ├── __init__.py                   # Package initialization
-│   ├── common_utils.py              # Common utility functions
-│   ├── data_utils.py                # Data handling utilities
-│   └── model_utils.py               # Model-related utilities
-├── train_with_huggingface/           # Hugging Face dataset integration
-│   ├── README.md                     # Hugging Face usage guide
-│   ├── README_HuggingFace.md        # Detailed HF integration guide
-│   ├── requirements_hf.txt           # Hugging Face dependencies
-│   ├── huggingface_dataset_loader.py # Dataset loading functionality
-│   ├── train_with_huggingface.py    # Training with HF datasets
-│   ├── test_hf_integration.py       # Integration testing
-│   └── install_huggingface.py       # Automated setup
+├── src/                               # Source code directory
+│   ├── cnnModel_pytorch.py           # CNN model architecture
+│   ├── train_model_pytorch_gpu.py    # Main training script
+│   ├── model_prediction.py           # Model prediction and 3D generation
+│   ├── dataPreprocess.py             # Data preprocessing utilities
+│   └── utils/                        # Utility modules
+│       ├── __init__.py               # Package initialization
+│       ├── common_utils.py          # Common utility functions
+│       ├── data_utils.py            # Data handling utilities
+│       └── model_utils.py           # Model-related utilities
 ├── checkpoints/                      # Training checkpoints
 ├── final_models/                     # Trained models
-├── hf_cache/                         # Hugging Face cache directory
 ├── logs/                             # Training and execution logs
 ├── plots/                            # Generated plots and visualizations
 └── __pycache__/                      # Python cache files
@@ -39,44 +31,25 @@ This project implements a deep learning approach to reconstruct 3D models from 2
 - **GPU acceleration** support with CUDA
 - **Attention mechanisms** for enhanced performance
 - **Advanced loss functions** including smoothness and symmetry
-- **Hugging Face integration** for large-scale datasets
 - **Comprehensive logging** and visualization
 - **Modular architecture** for easy customization
 
 ## Quick Start
 
-### 1. Install Core Dependencies
+### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Train with Local Dataset
+### 2. Train the Model
 ```bash
-python train_model_pytorch_gpu.py
+python src/train_model_pytorch_gpu.py
 ```
 
-### 3. Use Hugging Face Datasets (Optional)
+### 3. Generate 3D Models
 ```bash
-cd train_with_huggingface
-python install_huggingface.py
-python train_with_huggingface.py
+python src/model_prediction.py
 ```
-
-### 4. Generate 3D Models
-```bash
-python model_prediction.py
-```
-
-## Hugging Face Integration
-
-For training with large-scale, professional datasets, see the `train_with_huggingface/` subdirectory. This provides access to:
-
-- **ShapeNet**: Large-scale 3D shape dataset
-- **ModelNet**: 3D CAD models with 40 categories
-- **PartNet**: Fine-grained part segmentation
-- **ScanNet**: Indoor scene understanding
-
-See `train_with_huggingface/README.md` for detailed usage instructions.
 
 ## Requirements
 
@@ -89,17 +62,13 @@ See `train_with_huggingface/README.md` for detailed usage instructions.
 
 ### Training
 ```bash
-# Local dataset training
-python train_model_pytorch_gpu.py
-
-# Hugging Face dataset training
-cd train_with_huggingface
-python train_with_huggingface.py --hf-dataset modelnet --max-samples 1000
+# Train with local dataset
+python src/train_model_pytorch_gpu.py
 ```
 
 ### Prediction
 ```bash
-python model_prediction.py
+python src/model_prediction.py
 ```
 
 ## License
@@ -108,4 +77,4 @@ MIT
 
 ## Contributing
 
-Contributions are welcome! Please see the individual README files for specific contribution guidelines.
+Contributions are welcome! Please feel free to submit a Pull Request.
