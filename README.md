@@ -98,16 +98,9 @@ python train_with_huggingface.py --hf-dataset modelnet --max-samples 1000
 python model_prediction.py
 ```
 
-## Documentation
-
-- **Main README**: This file - project overview and basic usage
-- **Hugging Face README**: `train_with_huggingface/README.md` - detailed HF usage
-- **Code comments**: Comprehensive inline documentation
-- **Training logs**: Real-time feedback during training
-
 ## License
 
-This project follows the MIT license. Hugging Face datasets are subject to their respective licenses (typically academic use).
+MIT
 
 ## Contributing
 

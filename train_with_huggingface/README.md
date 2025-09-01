@@ -120,14 +120,4 @@ After training, you'll find:
 - **Code comments**: Detailed inline documentation
 - **Training logs**: Real-time feedback during training
 
-## Support
-
-For issues or questions:
-1. Check the troubleshooting section above
-2. Review training logs for error details
-3. Verify your environment setup
-4. Test with smaller datasets first
-
----
-
 **Note**: This integration is designed to work alongside your existing training pipeline. It provides access to professional-grade datasets while maintaining compatibility with your current codebase.
