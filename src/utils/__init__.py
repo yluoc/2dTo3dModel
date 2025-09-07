@@ -36,6 +36,19 @@ from .model_utils import (
     set_model_mode
 )
 
+from .frame_capture import (
+    ModelFrameCapture
+)
+
+from .dataset_2d3d import (
+    Image3DDataset,
+    get_data_transforms_2d3d,
+    create_2d3d_dataloader,
+    collate_fn_2d3d,
+    get_dataset_info_2d3d,
+    split_dataset
+)
+
 __all__ = [
     # Common utilities
     'load_obj',
@@ -66,5 +79,16 @@ __all__ = [
     'count_parameters',
     'count_trainable_parameters',
     'get_model_info',
-    'set_model_mode'
+    'set_model_mode',
+    
+    # Frame capture utilities
+    'ModelFrameCapture',
+    
+    # 2D-3D dataset utilities
+    'Image3DDataset',
+    'get_data_transforms_2d3d',
+    'create_2d3d_dataloader',
+    'collate_fn_2d3d',
+    'get_dataset_info_2d3d',
+    'split_dataset'
 ]

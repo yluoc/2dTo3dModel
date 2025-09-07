@@ -141,10 +141,14 @@ class FeaturePyramidNetwork(nn.Module):
     """
     def __init__(self, in_channels, out_channels):
         super().__init__()
+        # Handle both single channel and list of channels
+        if isinstance(in_channels, int):
+            in_channels = [in_channels] * 3
+        
         self.lateral_convs = nn.ModuleList([
-            nn.Conv2d(in_channels, out_channels, 1),
-            nn.Conv2d(in_channels, out_channels, 1),
-            nn.Conv2d(in_channels, out_channels, 1)
+            nn.Conv2d(in_channels[0], out_channels, 1),
+            nn.Conv2d(in_channels[1], out_channels, 1),
+            nn.Conv2d(in_channels[2], out_channels, 1)
         ])
         
         self.fpn_convs = nn.ModuleList([
@@ -200,14 +204,14 @@ class EnhancedCNNModel(nn.Module):
         self.layer2 = self._make_layer(128, 256, 2, stride=2)
         self.layer3 = self._make_layer(256, 512, 2, stride=2)
         
-        # Feature Pyramid Network
-        self.fpn = FeaturePyramidNetwork(512, 256)
+        # Feature Pyramid Network - handle different input channels
+        self.fpn = FeaturePyramidNetwork([128, 256, 512], 256)
         
         # Global average pooling
         self.global_pool = nn.AdaptiveAvgPool2d(1)
         
         # Multi-head attention for feature refinement
-        self.feature_projection = nn.Linear(512, d_model)
+        self.feature_projection = nn.Linear(256, d_model)
         self.attention = MultiHeadAttention(d_model, attention_heads, dropout)
         self.layer_norm1 = nn.LayerNorm(d_model)
         self.layer_norm2 = nn.LayerNorm(d_model)
@@ -228,7 +232,7 @@ class EnhancedCNNModel(nn.Module):
             nn.Linear(1024, 512),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(512, output_vertices * 3)  # 3 coordinates per vertex
+            nn.Linear(512, output_vertices)  # Total output dimension
         )
         
         # Initialize weights
