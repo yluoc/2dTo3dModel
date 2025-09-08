@@ -1,0 +1,71 @@
+# 3D Reconstruction Training Configuration
+# Optimized for Chamfer-based supervision with surface point sampling parity
+
+# Data paths
+data:
+  img_dir: "./training_dataset/2dImg"
+  model_dir: "./training_dataset/3dModel"
+  batch_size: 8
+  num_workers: 0
+  max_vertices: 2000
+  eval_points: 10000  # Fixed number of surface points for evaluation
+  fixed_eval_seed: 42  # Fixed seed for consistent evaluation sampling
+  eval_icp: false  # Whether to run rigid ICP before Chamfer evaluation
+
+# Model architecture
+model:
+  img_height: 512
+  img_width: 512
+  channels: 3
+  output_vertices: 6000  # 2000 vertices * 3 coordinates
+  attention_heads: 4
+  d_model: 256
+  dropout: 0.1
+
+# Training configuration
+training:
+  epochs: 50
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  warmup_epochs: 3
+  min_lr_ratio: 0.05
+  grad_clip_norm: 1.0
+  early_stop_patience: 8
+  early_stop_metric: "val/chamfer"  # Early stop on validation Chamfer loss
+
+# Loss weights (Chamfer as primary supervision)
+loss:
+  chamfer_weight: 1.0      # Primary supervision
+  vertex_weight: 0.25      # Secondary vertex coordinate loss
+  smooth_weight: 0.05      # Laplacian smoothness regularization
+  symmetry_weight: 0.05    # Symmetry constraint via mirror+Chamfer
+
+# Data augmentation
+augmentation:
+  enabled: true
+  horizontal_flip: false  # Disabled due to symmetry prior
+  rotation_degrees: 10
+  color_jitter:
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
+    hue: 0.1
+
+# Logging and checkpoints
+logging:
+  log_interval: 10
+  save_interval: 10
+  checkpoint_dir: "./checkpoints"
+  final_model_dir: "./final_models"
+  log_dir: "./logs"
+
+# Device configuration
+device:
+  use_cuda: true
+  device_id: 0
+
+# Evaluation configuration
+evaluation:
+  sample_points: 10000
+  use_fixed_seed: true
+  seed: 42
