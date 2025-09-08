@@ -207,7 +207,7 @@ class Trainer2D3D:
         )
         
         # Create model with fixed output dimension
-        fixed_output_dim = max_vertices * 3  # 5000 vertices * 3 coordinates = 15000
+        fixed_output_dim = max_vertices * 3  # 2000 vertices * 3 coordinates = 6000
         self.model = create_enhanced_model(
             img_height=512,
             img_width=512,
@@ -492,19 +492,19 @@ class Trainer2D3D:
 
 def main():
     """Main function to run training."""
-    # Configuration
+    # Configuration optimized for sphere dataset
     config = {
         'img_dir': './training_dataset/2dImg',
         'model_dir': './training_dataset/3dModel',
-        'batch_size': 4,  # Reduced for memory efficiency
+        'batch_size': 8,  # Increased for sphere models (simpler geometry)
         'learning_rate': 0.0001,
-        'max_vertices': 5000,  # Reduced for memory efficiency
-        'attention_heads': 8,
-        'd_model': 512,
-        'epochs': 100
+        'max_vertices': 2000,  # Reduced for sphere models (simpler geometry)
+        'attention_heads': 4,  # Reduced for simpler models
+        'd_model': 256,  # Reduced for simpler models
+        'epochs': 50  # Reduced for faster training
     }
     
-    epochs = config['epochs']
+    epochs = config.pop('epochs')  # Remove epochs from config
     
     logger.info(f"Training configuration: {config}")
     logger.info(f"Training epochs: {epochs}")
