@@ -8,8 +8,7 @@ import os
 import cv2
 from scipy.spatial import ConvexHull
 from .cnnModel_pytorch import EnhancedCNNModel
-from .utils import load_obj, get_device_info
-from .dataPreprocess import dataPreprocess
+from .utils.common_utils import get_device_info, load_obj
 
 class EnhancedPredModel:
     """
