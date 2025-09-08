@@ -49,10 +49,6 @@ class Image3DDataset(Dataset):
         self.max_vertices = max_vertices
         self.normalize_models = normalize_models
         
-        # Find all model directories
-        self.model_dirs = [d for d in self.model_dir.iterdir() if d.is_dir()]
-        logger.info(f"Found {len(self.model_dirs)} model directories")
-        
         # Create image-model pairs
         self.pairs = self._create_pairs()
         logger.info(f"Created {len(self.pairs)} image-model pairs")
@@ -66,8 +62,13 @@ class Image3DDataset(Dataset):
         """
         pairs = []
         
-        for model_dir in self.model_dirs:
-            model_name = model_dir.name
+        # For sphere models: models are in single directory, images are in subdirectories
+        # Find all .obj files in the model directory
+        obj_files = list(self.model_dir.glob("*.obj"))
+        logger.info(f"Found {len(obj_files)} .obj files in model directory")
+        
+        for obj_file in obj_files:
+            model_name = obj_file.stem  # Get filename without extension
             
             # Find corresponding image directory
             img_model_dir = self.img_dir / model_name
@@ -75,15 +76,6 @@ class Image3DDataset(Dataset):
             if not img_model_dir.exists():
                 logger.warning(f"No images found for model: {model_name}")
                 continue
-            
-            # Find .obj files in model directory
-            obj_files = list(model_dir.glob("*.obj"))
-            if not obj_files:
-                logger.warning(f"No .obj files found in model directory: {model_name}")
-                continue
-            
-            # Use the first .obj file found
-            model_file = obj_files[0]
             
             # Find all image files for this model
             image_files = list(img_model_dir.glob("*.png"))
@@ -96,7 +88,7 @@ class Image3DDataset(Dataset):
             for img_file in image_files:
                 pairs.append({
                     'image_path': str(img_file),
-                    'model_path': str(model_file),
+                    'model_path': str(obj_file),
                     'model_name': model_name,
                     'image_name': img_file.stem
                 })
@@ -320,7 +312,7 @@ def collate_fn_2d3d(batch: List[Tuple[torch.Tensor, torch.Tensor]]) -> Tuple[tor
     images = torch.stack(images)
     
     # Use fixed size for all vertices (max_vertices from dataset)
-    max_vertices = 5000  # Fixed maximum vertices
+    max_vertices = 2000  # Fixed maximum vertices for sphere models
     vertices_padded = torch.zeros(len(vertices_list), max_vertices, 3, dtype=torch.float32)
     
     for i, vertices in enumerate(vertices_list):
@@ -353,12 +345,15 @@ def get_dataset_info_2d3d(img_dir: str = "./training_dataset/2dImg",
         sample_image, sample_vertices = dataset[0]
         
         # Use fixed output dimension for consistency
-        fixed_max_vertices = 5000
+        fixed_max_vertices = 2000  # Optimized for sphere models
         fixed_output_dim = fixed_max_vertices * 3
+        
+        # Count unique models
+        unique_models = len(set(pair['model_name'] for pair in dataset.pairs))
         
         return {
             'dataset_size': len(dataset),
-            'num_models': len(dataset.model_dirs),
+            'num_models': unique_models,
             'image_shape': sample_image.shape,
             'max_vertices': fixed_max_vertices,
             'vertices_shape': (fixed_max_vertices, 3),

@@ -14,14 +14,15 @@ from .common_utils import (
     get_device_info
 )
 
-from .data_utils import (
-    ShapeDataset,
-    get_data_transforms,
-    create_dataloader,
-    prepare_batch_data,
-    calculate_output_vertices,
-    get_dataset_info
-)
+# data_utils module not available - commenting out
+# from .data_utils import (
+#     ShapeDataset,
+#     get_data_transforms,
+#     create_dataloader,
+#     prepare_batch_data,
+#     calculate_output_vertices,
+#     get_dataset_info
+# )
 
 from .model_utils import (
     create_optimizer,
@@ -61,13 +62,13 @@ __all__ = [
     'calculate_vertex_count',
     'get_device_info',
     
-    # Data utilities
-    'ShapeDataset',
-    'get_data_transforms',
-    'create_dataloader',
-    'prepare_batch_data',
-    'calculate_output_vertices',
-    'get_dataset_info',
+    # Data utilities (commented out - module not available)
+    # 'ShapeDataset',
+    # 'get_data_transforms',
+    # 'create_dataloader',
+    # 'prepare_batch_data',
+    # 'calculate_output_vertices',
+    # 'get_dataset_info',
     
     # Model utilities
     'create_optimizer',
